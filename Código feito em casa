@@ -1,0 +1,76 @@
+
+struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2) {
+    
+    // Ponteiro para o primeiro nó da lista de resposta
+    struct ListNode* inicio = NULL;
+
+    // Ponteiro para o último nó da lista de resposta
+    struct ListNode* fim = NULL;
+
+    // Guarda o valor que será transportado para a próxima soma
+    int carry = 0;
+
+    // Continua enquanto houver nós em alguma lista
+    // ou enquanto existir um transporte pendente
+    while (l1 != NULL || l2 != NULL || carry != 0) {
+
+        // A soma começa com o transporte da operação anterior
+        int soma = carry;
+
+        // Verifica se ainda existe um nó na primeira lista
+        if (l1 != NULL) {
+
+            // Adiciona o valor do nó atual à soma
+            soma += l1->val;
+
+            // Avança para o próximo nó da primeira lista
+            l1 = l1->next;
+        }
+
+        // Verifica se ainda existe um nó na segunda lista
+        if (l2 != NULL) {
+
+            // Adiciona o valor do nó atual à soma
+            soma += l2->val;
+
+            // Avança para o próximo nó da segunda lista
+            l2 = l2->next;
+        }
+
+        // Calcula o transporte para a próxima soma
+        // Exemplo: 15 / 10 = 1
+        carry = soma / 10;
+
+        // Obtém o dígito que será armazenado no nó atual
+        // Exemplo: 15 % 10 = 5
+        int digito = soma % 10;
+
+        // Reserva memória para criar um novo nó
+        struct ListNode* novo = malloc(sizeof(struct ListNode));
+
+        // Armazena o dígito calculado no novo nó
+        novo->val = digito;
+
+        // Inicializa o ponteiro next como NULL,
+        // pois esse nó será o último da lista por enquanto
+        novo->next = NULL;
+
+        // Verifica se a lista de resposta ainda está vazia
+        if (inicio == NULL) {
+
+            // Se estiver vazia, o novo nó será o primeiro
+            inicio = novo;
+
+        } else {
+
+            // Se já houver nós, conecta o último ao novo nó
+            fim->next = novo;
+        }
+
+        // Atualiza o ponteiro para indicar o último nó
+        fim = novo;
+    }
+
+    // Retorna o início da lista que contém o resultado
+    return inicio;
+}
